@@ -1,26 +1,16 @@
-# gphotos-upload
-Simple but flexible script to upload photos to Google Photos. Useful if you have photos in a directory structure that you want to reflect as Google Photos albums.
 
-## Usage 
+# gphotos-upload-multiple-chunks
+Simple but flexible script to upload photos or videos to Google Photos. Useful if you have photos/videos in a directory structure that you want to reflect as Google Photos albums.
 
-```
-usage: upload.py [-h] [--auth  auth_file] [--album album_name]
-                 [--log log_file]
-                 [photo [photo ...]]
+This fork provides file uploads in **multiple chunks** with **retrying behaviour** to prevent transmission errors and RAM exhaustion while uploading large items.
 
-Upload photos to Google Photos.
+## Install
+You need to install at least the following prerequisites:
 
-positional arguments:
-  photo               filename of a photo to upload
-
-optional arguments:
-  -h, --help          show this help message and exit
-  --auth  auth_file   file for reading/storing user authentication tokens
-  --album album_name  name of photo album to create (if it doesn't exist). Any
-                      uploaded photos will be added to this album.
-  --log log_file      name of output file for log messages
-```
-
+* Python 3.7
+* Python Magic 0.4.14        ```pip install python-magic-bin==0.4.14```
+* Tenacity 6.0.0                    ```pip install tenacity==6.0.0```
+* Glob2 0.7                           ```pip install glob2==0.7```
 
 ## Setup
 
@@ -33,13 +23,35 @@ optional arguments:
 2. Replace `YOUR_CLIENT_ID` in the client_id.json file with the provided Client ID. 
 3. Replace `YOUR_CLIENT_SECRET` in the client_id.json file wiht the provided Client Secret.
 
-### Installing dependencies and running the script
+ ## Usage 
 
-1. Make sure you have [Python 3.7](https://www.python.org/downloads/) installed on your system
-2. If needed, install [pipenv](https://pypi.org/project/pipenv/) via `pip install pipenv`
-3. Change to the directory where you installed this script
-4. Run `pipenv install` to download and install all the dependencies
-5. Run `pipenv shell` to open a shell with all the dependencies available (you'll need to do this every time you want to run the script)
-6. Now run the script via `python upload.py` as desired. Use `python upload.py -h` to get help.
+```
+usage: upload.py [-h] [--auth  auth_file] [--album album_name]
+                 [--log log_file] [--glob_videos videos_dir]
+                 [--glob_images images_dir] [--delete_files]
+                 [item [item ...]]
 
- 
+Upload items (photo/video) to Google Photos.
+
+positional arguments:
+  item                  filename of a item to upload
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --auth  auth_file     file for reading/storing user authentication tokens
+  --album album_name    name of album to create (if it doesn't exist). Any
+                        uploaded item will be added to this album.
+  --log log_file        name of output file for log messages
+  --glob_videos videos_dir
+                        search a provided directory recursively for video
+                        files
+  --glob_images images_dir
+                        search a provided directory recursively for images
+                        files
+  --delete_files        switch to enable the deletion of files after
+                        successfull upload
+```
+
+## Credits
+forked from https://github.com/eshmu/gphotos-upload
+
